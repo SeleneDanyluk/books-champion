@@ -1,14 +1,28 @@
-import React from 'react'
+import { useState } from "react";
+import { Card, Button } from "react-bootstrap";
 
-const BookItem = ({ bookTitle, author, rating, pages }) => {
+const BookItem = ({ bookTitle, author, rating, pages, imageUrl }) => {
+  const [title, setTitle] = useState(bookTitle);
+  const handleTitle = () => {
+    setTitle("Titulo actualizado!");
+  };
+
   return (
-    <div>
-        <h2>{bookTitle}</h2>
-        <h3>{author}</h3>
+    <Card style={{ width: "22rem" }}>
+      <Card.Img
+        height={400}
+        variant="top"
+        src={imageUrl !== "" ? imageUrl : "https://bit.ly/47NylZk"}
+      />
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Subtitle>{author}</Card.Subtitle>
         <div>{rating} estrellas</div>
         <p>{pages} páginas</p>
-    </div>
-  )
-}
+        <Button onClick={handleTitle}> Actualizar titulo</Button>
+      </Card.Body>
+    </Card>
+  );
+};
 
-export default BookItem
+export default BookItem;

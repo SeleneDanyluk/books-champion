@@ -21,10 +21,14 @@ function App() {
 
   return (
     <>
+      <div className="container justify-content-center my-5">
       <h2>Book champions app</h2>
       <p>¡Quiero leer libros!</p>
       <NewBook onBookAdded={handleBookAdded} />
+      </div>
+      <div>
       <Books books={books}/>
+      </div>
     </>
   );
 }

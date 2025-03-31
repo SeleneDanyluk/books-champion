@@ -12,7 +12,7 @@ const BookItem = ({ bookTitle, author, rating, pages, imageUrl }) => {
       <Card.Img
         height={400}
         variant="top"
-        src={imageUrl !== "" ? imageUrl : "https://bit.ly/47NylZk"}
+        src={imageUrl !== "" ? imageUrl : "https://bit.ly/47NylZk"} 
       />
       <Card.Body>
         <Card.Title>{title}</Card.Title>

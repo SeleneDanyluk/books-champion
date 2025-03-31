@@ -68,7 +68,9 @@ const NewBook = ({ onBookAdded }) => {
                                 <Form.Control 
                                 type="text" 
                                 placeholder="Ingresar título" 
-                                onChange={handleChangeTitle} />
+                                onChange={handleChangeTitle} 
+                                value={title}
+                                />
                             </Form.Group>
                         </Col>
                         <Col md={6}>
@@ -77,7 +79,8 @@ const NewBook = ({ onBookAdded }) => {
                                 <Form.Control 
                                 type="text"
                                 placeholder="Ingresar autor"
-                                onChange={handleAuthorChange} />
+                                onChange={handleAuthorChange} 
+                                value={author}/>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -91,6 +94,7 @@ const NewBook = ({ onBookAdded }) => {
                                     max={5}
                                     min={0}
                                     onChange={handleRatingChange}
+                                    value={rating}
                                 />
                             </Form.Group>
                         </Col>
@@ -102,6 +106,7 @@ const NewBook = ({ onBookAdded }) => {
                                     placeholder="Ingresar cantidad de páginas"
                                     min={1}
                                     onChange={handlePageCountChange}
+                                    value={pageCount}
                                 />
                             </Form.Group>
                         </Col>
@@ -113,6 +118,7 @@ const NewBook = ({ onBookAdded }) => {
                             type="text" 
                             placeholder="Ingresar url de imagen"
                             onChange={handleImageUrlChange} 
+                            value={imageUrl}
                             />
                         </Form.Group>
                     </Row>
@@ -125,6 +131,7 @@ const NewBook = ({ onBookAdded }) => {
                                 label="¿Disponible?"
                                 onChange={handleAvailabilityChange}
                                 checked={available}
+                                value={available}
                             />
                             <Button variant="primary" type="submit">
                                 Agregar lectura

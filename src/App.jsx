@@ -1,34 +1,29 @@
 import { useState } from "react";
 import "./App.css";
-import Books from "./components/books/Books";
-import NewBook from "./components/newBook/NewBook";
-import booksInitial from "./data/books";
+import Dashboard from "./components/dashboard/Dashboard";
+import { BrowserRouter } from "react-router";
+import { Route, Routes } from "react-router";
+import NotFound from "./components/notFound/NotFound";
+import Login from "./components/login/Login";
+import Protected from "./components/protected/Protected";
+import MainLayout from "./components/mainLayout/MainLayout"
+
 
 function App() {
-
-  const [books, setBooks] = useState(booksInitial);
-  const handleBookAdded = (enteredBook) => {
-    console.log(enteredBook);
-    const bookData = {
-      ...enteredBook,
-      id: Math.random().toString(),
-      bookRating: Array(enteredBook.rating).fill("*"),  
-    };
-    setBooks((prevBooks) => {
-      return [...prevBooks, bookData];
-    });
-  };
-
+  const [isLogged, setIsLogged] = useState(false);
   return (
     <>
-      <div className="container justify-content-center my-5">
-      <h2>Book champions app</h2>
-      <p>¡Quiero leer libros!</p>
-      <NewBook onBookAdded={handleBookAdded} />
-      </div>
-      <div>
-      <Books books={books}/>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route element={<Protected isLogged={isLogged} />}>
+              <Route path="/" element={<Dashboard />} />
+            </Route>
+          </Route>
+          <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

@@ -16,9 +16,9 @@ const Books = ({ books }) => {
       <BookItem
         key={book.id}
         id={book.id}
-        bookTitle={book.bookTitle}
-        author={book.bookAuthor}
-        rating={book.bookRating}
+        bookTitle={book.title}
+        author={book.author}
+        rating={book.rating}
         pages={book.pageCount}
         imageUrl={book.imageUrl}
       />

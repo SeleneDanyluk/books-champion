@@ -34,7 +34,7 @@ const Login = ({setIsLogged}) => {
         }
         setIsLogged(true);
         alert(`El email ingresado es: ${email} y el password es ${password}`)
-        navigate("/");
+        navigate("/libros");
     }
 
     return (

@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route element={<Protected isLogged={isLogged} />}>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/libros/*" element={<Dashboard />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />

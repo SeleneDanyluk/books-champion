@@ -2,8 +2,6 @@ import React from 'react'
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 
-
-
 const NewBook = ({ onBookAdded }) => {
 
     const [title, setTitle] = useState("");
@@ -36,27 +34,41 @@ const NewBook = ({ onBookAdded }) => {
         setAvailable(event.target.checked);
     }
 
-    const handleAddBook = (event) => {
-        event.preventDefault();
-
+    const handleAddBook = async (e) => {
+        e.preventDefault();
+      
         const bookData = {
-            bookTitle: title,
-            bookAuthor: author,
-            rating : parseInt(rating, 10),
-            pageCount: parseInt(pageCount, 10),
-            imageUrl,
-            available
+          title,
+          author,
+          rating: parseInt(rating, 10),
+          pageCount: parseInt(pageCount, 10),
+          summary: "",
+          imageUrl,
+          available
         };
-
-        onBookAdded(bookData);
-        setTitle("");
-        setAuthor("");
-        setRating("");
-        setPageCount("");
-        setImageUrl("");
-        setAvailable(false);
-    }
-
+      
+        try {
+          const res = await fetch("http://localhost:3000/books", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bookData)
+          });
+      
+          if (!res.ok) throw new Error("Falló crear libro");
+      
+          const newBook = await res.json();
+          onBookAdded(newBook);
+          setTitle("");
+          setAuthor("");
+          setRating("");
+          setPageCount("");
+          setImageUrl("");
+          setAvailable(false);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      
     return (
         <Card bg="success" >
             <Card.Body>

@@ -3,6 +3,8 @@ import NewBook from '../newBook/NewBook';
 import Books from '../books/Books';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Route, Routes, useLocation, useNavigate } from "react-router";
+import BookDetails from '../bookDetails/BookDetails';
 
 const Dashboard = () => {
 
@@ -32,13 +34,12 @@ const Dashboard = () => {
     <div className="container justify-content-center my-5">
       <h2>Book champions app</h2>
       <p>¡Quiero leer libros!</p>
-      <NewBook onBookAdded={handleBookAdded} />
-      <div>
-        <Books books={books} />
-      </div>
-
+      <Routes>
+        <Route index element={<Books books={books} />} ></Route>
+        <Route path='/:id' element={<BookDetails />}></Route>
+        <Route path='agregar-libro' element={<NewBook onBookAdded={handleBookAdded} />}></Route>
+      </Routes>
     </div>
-
   )
 }
 

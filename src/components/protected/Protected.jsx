@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, Outlet, Navigate } from 'react-router';
+import { Outlet, Navigate } from 'react-router';
 
 const Protected = ({isLogged}) => {
     if (!isLogged) {

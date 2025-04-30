@@ -10,21 +10,29 @@ const Books = ({ books }) => {
     setSearch(value);
   };
 
+  const handleDeleteBook = (bookId) => {
+    alert(`El libro con id ${bookId} fue eliminado`);
+  };
+
   const filteredBooks = books
-    .filter(book => search ? (book.bookTitle.toLowerCase().includes(search.toLowerCase()) || book.bookAuthor.toLowerCase().includes(search.toLowerCase())) : book)
+    .filter(book => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)
     .map(((book) => (
       <BookItem
         key={book.id}
         id={book.id}
-        bookTitle={book.title}
+        title={book.title}
         author={book.author}
         rating={book.rating}
         pages={book.pageCount}
         imageUrl={book.imageUrl}
+        summary={book.summary}
+        available={book.available}
+        onDeleteBook={handleDeleteBook}
       />
     )));
 
   return (
+
     <div className="d-flex justify-content-center flex-wrap my-5">
       <div className='container max-w-50 d-flex justify-content-center flex-wrap'>
         <BookSearch onSearch={handleSearch} search={search} />

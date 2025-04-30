@@ -1,29 +1,22 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import { Button, Modal } from "react-bootstrap"
 
-function DeleteModal({ show, setShow}) {
-  return (
-    <Modal
-    show={show}
-    onHide={setShow(false)}
-      style={{ display: 'block', position: 'initial' }}
-    >
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Modal body text goes here.</p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button onClick={setShow(false)} variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Modal>
-  );
+const DeleteModal = ({ show, entity, headerText, onHide, onDelete }) => {
+    return (
+        <Modal show={show} onHide={onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>{headerText}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>¿Está seguro que desea eliminar <span className="fw-bold">{entity}</span>?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    Cancelar
+                </Button>
+                <Button variant="danger" onClick={onDelete}>
+                    Si, deseo eliminarlo
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    )
 }
 
-export default DeleteModal;
+export default DeleteModal

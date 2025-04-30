@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useNavigate } from 'react-router';
 
 const NewBook = ({ onBookAdded }) => {
+
+    const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -68,6 +71,10 @@ const NewBook = ({ onBookAdded }) => {
           console.error(err);
         }
       };
+
+      const handleBackToBooks = () => {
+        navigate("/libros")
+      }
       
     return (
         <Card bg="success" >
@@ -147,6 +154,9 @@ const NewBook = ({ onBookAdded }) => {
                             />
                             <Button variant="primary" type="submit">
                                 Agregar lectura
+                            </Button>
+                            <Button variant="secondary" onClick={handleBackToBooks}>
+                                Volver
                             </Button>
                         </Col>
                     </Row>

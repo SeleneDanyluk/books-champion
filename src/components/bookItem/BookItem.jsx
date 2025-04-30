@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 
-const BookItem = ({ id, bookTitle, author, rating, pages, summary, imageUrl, available, onDeleteBook }) => {
+const BookItem = ({ id, title, author, rating, pages, summary, imageUrl, available, onDeleteBook }) => {
 
   const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ const BookItem = ({ id, bookTitle, author, rating, pages, summary, imageUrl, ava
     navigate(`${id}`, {
       state: {
         book: {
-          bookTitle,
+          title,
           author,
           rating,
           pages,
@@ -33,7 +33,7 @@ const BookItem = ({ id, bookTitle, author, rating, pages, summary, imageUrl, ava
           src={imageUrl !== null ? imageUrl : "https://bit.ly/47NylZk"}
         />
         <Card.Body>
-          <Card.Title>{bookTitle}</Card.Title>
+          <Card.Title>{title}</Card.Title>
           <Card.Subtitle>{author}</Card.Subtitle>
           <h2>{rating} Estrellas</h2>
           <p>{pages} páginas</p>

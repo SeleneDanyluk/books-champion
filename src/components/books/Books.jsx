@@ -15,16 +15,17 @@ const Books = ({ books }) => {
   };
 
   const filteredBooks = books
-    .filter(book => search ? (book.bookTitle.toLowerCase().includes(search.toLowerCase()) || book.bookAuthor.toLowerCase().includes(search.toLowerCase())) : book)
+    .filter(book => search ? (book.title.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())) : book)
     .map(((book) => (
       <BookItem
         key={book.id}
         id={book.id}
-        bookTitle={book.title}
+        title={book.title}
         author={book.author}
         rating={book.rating}
         pages={book.pageCount}
         imageUrl={book.imageUrl}
+        summary={book.summary}
         available={book.available}
         onDeleteBook={handleDeleteBook}
       />

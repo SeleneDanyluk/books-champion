@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { errorToast, successToast } from "../ui/toast/NotificationToast";
 
 const Login = ({ setIsLogged }) => {
     const [email, setEmail] = useState("");
@@ -41,18 +42,18 @@ const Login = ({ setIsLogged }) => {
             .then(res => res.json())
             .then(token => {
                 localStorage.setItem("book-champions-token", token);
-                alert("Inicio de sesión exitoso.");
+                successToast("Inicio de sesión exitoso.")
                 setIsLogged(true);
                 navigate("/libros");
             })
             .catch(err => {
-                console.error(err);
+                errorToast("Error al iniciar sesión.")
             });
     };
     
     const handleNavigateToRegister = () => {
         navigate("/register");
-    }
+    };
 
     return (
         <Card className="mt-5 mx-3 p-3 px-5 shadow">
@@ -91,8 +92,9 @@ const Login = ({ setIsLogged }) => {
                                 Iniciar sesión
                             </Button>
                         </Col>
-                        <Col md={6} className="d-flex justify-content-end">
-                            <Button variant="secondary" onSubmit={handleNavigateToRegister}>
+                        <Col md={6} className="justify-content-center">
+                            <p>¿Aún no tienes una cuenta?</p>
+                            <Button variant="primary" onClick={handleNavigateToRegister}>
                                 Registrarse
                             </Button>
                         </Col>

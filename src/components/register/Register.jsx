@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { errorToast, successToast } from '../ui/toast/NotificationToast';
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -48,15 +49,17 @@ const Register = () => {
                 body: JSON.stringify(newUser)
             });
 
-            if (!res.ok) throw new Error("Falló al crear usuario.");
+            if (!res.ok) {
+                errorToast("Error al registrar usuario.")
+            }
 
             const userId = await res.json();
 
-            alert(`Usuario con id ${userId} registrado exitosamente. Inicie sesión para continuar.`)
+            successToast("Usuario registrado exitosamente. Inicie sesión para continuar.")
             navigate("/login");
 
         } catch (err) {
-            console.error(err);
+            errorToast("Error al registar usuario.");
         }
     }
 

@@ -21,19 +21,19 @@ const Login = ({ setIsLogged }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-    
+
         if (!emailRef.current.value) {
             setErrors({ ...errors, email: true });
             emailRef.current.focus();
             return;
         }
-    
+
         if (!passwordRef.current.value) {
             setErrors({ ...errors, password: true });
             passwordRef.current.focus();
             return;
         }
-    
+
         fetch("http://localhost:3000/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -48,9 +48,10 @@ const Login = ({ setIsLogged }) => {
             })
             .catch(err => {
                 errorToast("Error al iniciar sesión.")
+                return
             });
     };
-    
+
     const handleNavigateToRegister = () => {
         navigate("/register");
     };

@@ -11,7 +11,11 @@ const Dashboard = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/books")
+    fetch("http://localhost:3000/books", {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("book-champions-token")}`
+      }
+    })
       .then(res => res.json())
       .then(data => setBooks([...data]))
       .catch(error => console.log(error))

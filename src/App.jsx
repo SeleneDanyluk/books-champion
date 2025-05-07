@@ -7,12 +7,15 @@ import NotFound from "./components/notFound/NotFound";
 import Login from "./components/login/Login";
 import Protected from "./components/protected/Protected";
 import MainLayout from "./components/mainLayout/MainLayout"
+import Register from "./components/register/Register";
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   return (
-    <>
+    <div className="d-flex flex-column align-items-center">
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
@@ -21,10 +24,11 @@ function App() {
             </Route>
           </Route>
           <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
+          <Route path="/register" element={<Register></Register>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

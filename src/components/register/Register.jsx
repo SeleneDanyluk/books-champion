@@ -1,15 +1,15 @@
-import { useState, useRef } from "react";
+import React from 'react'
+import { useState } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { errorToast, successToast } from "../ui/toast/NotificationToast";
+import { errorToast, successToast } from '../ui/toast/NotificationToast';
 
-const Login = ({ setIsLogged }) => {
+const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
     const [errors, setErrors] = useState({ email: false, password: false });
     const navigate = useNavigate();
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value)
@@ -19,41 +19,49 @@ const Login = ({ setIsLogged }) => {
         setPassword(event.target.value)
     }
 
-    const handleSubmit = (event) => {
+    const handleNameChange = (event) => {
+        setName(event.target.value)
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        if (!emailRef.current.value) {
+
+        if (!email) {
             setErrors({ ...errors, email: true });
-            emailRef.current.focus();
             return;
         }
-    
-        if (!passwordRef.current.value) {
+
+        if (!password) {
             setErrors({ ...errors, password: true });
-            passwordRef.current.focus();
             return;
         }
-    
-        fetch("http://localhost:3000/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        })
-            .then(res => res.json())
-            .then(token => {
-                localStorage.setItem("book-champions-token", token);
-                successToast("Inicio de sesión exitoso.")
-                setIsLogged(true);
-                navigate("/libros");
-            })
-            .catch(err => {
-                errorToast("Error al iniciar sesión.")
+
+        const newUser = {
+            name,
+            email,
+            password
+        };
+
+        try {
+            const res = await fetch("http://localhost:3000/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser)
             });
-    };
-    
-    const handleNavigateToRegister = () => {
-        navigate("/register");
-    };
+
+            if (!res.ok) {
+                errorToast("Error al registrar usuario.")
+            }
+
+            const userId = await res.json();
+
+            successToast("Usuario registrado exitosamente. Inicie sesión para continuar.")
+            navigate("/login");
+
+        } catch (err) {
+            errorToast("Error al registar usuario.");
+        }
+    }
 
     return (
         <Card className="mt-5 mx-3 p-3 px-5 shadow">
@@ -64,13 +72,21 @@ const Login = ({ setIsLogged }) => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup className="mb-4">
                         <Form.Control
+                            type="text"
+                            required
+                            placeholder="Ingresar nombre de usuario"
+                            onChange={handleNameChange}
+                            value={name}
+                        />
+                    </FormGroup>
+                    <FormGroup className="mb-4">
+                        <Form.Control
                             type="email"
                             className={errors.email && 'border border-danger'}
                             required
                             placeholder="Ingresar email"
                             onChange={handleEmailChange}
                             value={email}
-                            ref={emailRef}
                         />
                         {errors.email && <p>El email es requerido.</p>}
                     </FormGroup>
@@ -81,7 +97,6 @@ const Login = ({ setIsLogged }) => {
                             placeholder="Ingresar contraseña"
                             onChange={handlePasswordChange}
                             value={password}
-                            ref={passwordRef}
                         />
                         {errors.password && <p>El password es requerido.</p>}
                     </FormGroup>
@@ -89,12 +104,6 @@ const Login = ({ setIsLogged }) => {
                         <Col />
                         <Col md={6} className="d-flex justify-content-end">
                             <Button variant="secondary" type="submit">
-                                Iniciar sesión
-                            </Button>
-                        </Col>
-                        <Col md={6} className="justify-content-center">
-                            <p>¿Aún no tienes una cuenta?</p>
-                            <Button variant="primary" onClick={handleNavigateToRegister}>
                                 Registrarse
                             </Button>
                         </Col>
@@ -102,8 +111,7 @@ const Login = ({ setIsLogged }) => {
                 </Form>
             </Card.Body>
         </Card>
-    );
-};
+    )
+}
 
-
-export default Login;
+export default Register

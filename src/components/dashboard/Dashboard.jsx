@@ -1,25 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NewBook from '../newBook/NewBook';
 import Books from '../books/Books';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import fetchBooks from './dashboard.services';
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import BookDetails from '../bookDetails/BookDetails';
+import { errorToast } from '../ui/toast/NotificationToast';
 
 const Dashboard = () => {
 
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/books", {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("book-champions-token")}`
-      }
-    })
-      .then(res => res.json())
+    const token = localStorage.getItem('book-champions-token')
+    fetchBooks(token)
       .then(data => setBooks([...data]))
-      .catch(error => console.log(error))
-  }, []);
+      .catch(error => errorToast(error))
+  }, [])
 
   const handleBookAdded = (enteredBook) => {
     console.log(enteredBook);

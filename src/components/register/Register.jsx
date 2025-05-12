@@ -2,13 +2,14 @@ import React from 'react'
 import { useState } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { validateEmail, validatePassword, validateString } from '../auth/auth.services';
 import { errorToast, successToast } from '../ui/toast/NotificationToast';
 
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [errors, setErrors] = useState({ email: false, password: false });
+    const [errors, setErrors] = useState({ email: false, password: false, name:false });
     const navigate = useNavigate();
 
     const handleEmailChange = (event) => {
@@ -26,14 +27,28 @@ const Register = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!email) {
-            setErrors({ ...errors, email: true });
-            return;
+        if(!validateString(name, 1, 50)){
+            setErrors({...errors, name:true})
+            errorToast('El nombre es requerido y debe tener entre 1 y 50 caracteres')
+            return
+        }else{
+            setErrors({...errors, name:false})
         }
 
-        if (!password) {
-            setErrors({ ...errors, password: true });
+        if (!validateEmail(email)) {
+            setErrors({ ...errors, email: true });
+            errorToast('El email es invalido')
             return;
+        }else{
+            setErrors({...errors, email:false})
+        }
+
+        if (!validatePassword(password, 8, 20, true, true)) {
+            setErrors({ ...errors, password: true });
+            errorToast('La contraseña debe tener entre 8 y 20 caracteres, al menos una mayuscula y 1 numero')
+            return;
+        }else{
+            setErrors({...errors, password:false})
         }
 
         const newUser = {

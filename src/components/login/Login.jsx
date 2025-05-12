@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { validateEmail, validatePassword } from "../auth/auth.services";
 import { errorToast, successToast } from "../ui/toast/NotificationToast";
 
 const Login = ({ setIsLogged }) => {
@@ -22,16 +23,22 @@ const Login = ({ setIsLogged }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (!emailRef.current.value) {
+        if (!validateEmail(email)) {
             setErrors({ ...errors, email: true });
             emailRef.current.focus();
+            errorToast('Email invalido')
             return;
+        }else{
+            setErrors({...errors, email:false})
         }
 
-        if (!passwordRef.current.value) {
+        if (!validatePassword(password, 1)) {
             setErrors({ ...errors, password: true });
+            errorToast('La contraseña es requerida')
             passwordRef.current.focus();
             return;
+        }else{
+            setErrors({...errors, password:false})
         }
 
         fetch("http://localhost:3000/login", {

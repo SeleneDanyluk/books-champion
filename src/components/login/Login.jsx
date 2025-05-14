@@ -1,16 +1,18 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { validateEmail, validatePassword } from "../auth/auth.services";
 import { errorToast, successToast } from "../ui/toast/NotificationToast";
+import { AuthenticationContext } from "../services/auth.context";
 
-const Login = ({ setIsLogged }) => {
+const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ email: false, password: false });
     const navigate = useNavigate();
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const { handleUserLogin } = useContext(AuthenticationContext);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value)
@@ -28,8 +30,8 @@ const Login = ({ setIsLogged }) => {
             emailRef.current.focus();
             errorToast('Email invalido')
             return;
-        }else{
-            setErrors({...errors, email:false})
+        } else {
+            setErrors({ ...errors, email: false })
         }
 
         if (!validatePassword(password, 1)) {
@@ -37,8 +39,8 @@ const Login = ({ setIsLogged }) => {
             errorToast('La contraseña es requerida')
             passwordRef.current.focus();
             return;
-        }else{
-            setErrors({...errors, password:false})
+        } else {
+            setErrors({ ...errors, password: false })
         }
 
         fetch("http://localhost:3000/login", {
@@ -48,9 +50,7 @@ const Login = ({ setIsLogged }) => {
         })
             .then(res => res.json())
             .then(token => {
-                localStorage.setItem("book-champions-token", token);
-                successToast("Inicio de sesión exitoso.")
-                setIsLogged(true);
+                handleUserLogin(token);
                 navigate("/libros");
             })
             .catch(err => {
